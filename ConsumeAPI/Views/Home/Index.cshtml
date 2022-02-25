@@ -1,0 +1,39 @@
+﻿@model List<ConsumeAPI.ResponseModels.ProductResponseModel>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Web Api Consume</title>
+</head>
+<body>
+    <p>MVC Works</p>
+
+    <p>@ViewBag.ResponseMessage</p>
+
+    <a asp-action="Create" asp-controller="Home">Add New Item</a>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>createdDate</th>
+            <th></th>
+        </tr>
+
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Stock</td>
+                <td>@product.Price</td>
+                <td>@product.createdDate</td>
+                <td>
+                    <a asp-action="Update" asp-controller="Home" asp-route-id="@product.Id">Update</a>
+                    <a asp-action="Remove" asp-controller="Home" asp-route-id="@product.Id">Remove</a>
+                </td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

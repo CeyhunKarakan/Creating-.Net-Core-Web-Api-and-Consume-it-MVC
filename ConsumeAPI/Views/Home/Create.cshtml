@@ -1,0 +1,36 @@
+﻿@model ConsumeAPI.ResponseModels.ProductResponseModel
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add New Item</title>
+</head>
+<body>
+    @{ 
+        if (TempData["errorMessage"] != null)
+            {
+                <p style="color:red">
+                    @TempData["errorMessage"]?.ToString()
+                </p>
+            }
+    }
+    <h1>Add New Item</h1>
+    <form asp-action="Create" asp-controller="Home" method="post">
+        <label>Name:</label>
+        <input type="text" asp-for="@Model.Name" />
+        <br />
+        <hr />
+        <label>Price:</label>
+        <input asp-for="@Model.Price" />
+        <br />
+        <hr />
+        <label>Stock:</label>
+        <input asp-for="@Model.Stock" />
+        <br />
+        <hr />
+
+        <div>
+            <a asp-action="Index" asp-controller="Home">Back</a>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</body>
+</html>
