@@ -47,7 +47,6 @@ namespace ConsumeAPI.Controllers
             var jsonData = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var responseMessage = await client.PostAsync("http://localhost:5000/api/products",content);
-
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
