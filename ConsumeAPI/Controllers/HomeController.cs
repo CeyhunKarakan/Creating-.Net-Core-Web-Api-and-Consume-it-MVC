@@ -57,7 +57,7 @@ namespace ConsumeAPI.Controllers
                 return View(model);
             }
         }
-        [HttpGet]
+       
         public async Task< IActionResult> Update (int id)
         {
             var client = _httpClientFactory.CreateClient();
@@ -74,7 +74,7 @@ namespace ConsumeAPI.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> ActionResult(ProductResponseModel model)
+        public async Task<IActionResult> Update(ProductResponseModel model)
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(model);
@@ -93,7 +93,7 @@ namespace ConsumeAPI.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            await client.GetAsync($"http://localhost:5000/api/products/{id}");
+            await client.DeleteAsync($"http://localhost:5000/api/products/{id}");
             return RedirectToAction("Index");
         }
     }

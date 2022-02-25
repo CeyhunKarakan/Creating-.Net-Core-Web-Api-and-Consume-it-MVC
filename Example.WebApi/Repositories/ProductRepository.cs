@@ -38,7 +38,8 @@ namespace Example.WebApi.Repositories
         {
             var removedEntity = await _context.Products.FindAsync(id);
             _context.Products.Remove(removedEntity);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task UpdateAsync(Product product)
