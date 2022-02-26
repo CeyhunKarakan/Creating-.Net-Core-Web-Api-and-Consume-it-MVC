@@ -114,7 +114,6 @@ namespace ConsumeAPI.Controllers
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
             MultipartFormDataContent formData = new MultipartFormDataContent();
             formData.Add(content, "formFile",file.FileName);
-
             await client.PostAsync("http://localhost:5000/api/products/upload", formData);
             return RedirectToAction("Index");
         }
