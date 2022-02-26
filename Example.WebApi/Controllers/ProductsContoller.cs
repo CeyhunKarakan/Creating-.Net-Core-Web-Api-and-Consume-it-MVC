@@ -71,7 +71,7 @@ namespace Udemy.WebApi.Controllers
         }
         //api/product/upload
         [HttpPost("upload")]
-        public async Task<IActionResult> Upload(IFormFile formFile)
+        public async Task<IActionResult> Upload([FromForm]IFormFile formFile)
         {
             var newName = Guid.NewGuid() + "." + Path.GetExtension(formFile.FileName);
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", newName);

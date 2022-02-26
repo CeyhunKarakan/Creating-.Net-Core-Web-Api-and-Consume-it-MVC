@@ -1,8 +1,10 @@
 ﻿using ConsumeAPI.ResponseModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -33,7 +35,7 @@ namespace ConsumeAPI.Controllers
             {
                 return View(null);
             }
-            
+
         }
         public IActionResult Create()
         {
@@ -46,7 +48,7 @@ namespace ConsumeAPI.Controllers
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(model);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("http://localhost:5000/api/products",content);
+            var responseMessage = await client.PostAsync("http://localhost:5000/api/products", content);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -57,8 +59,8 @@ namespace ConsumeAPI.Controllers
                 return View(model);
             }
         }
-       
-        public async Task< IActionResult> Update (int id)
+
+        public async Task<IActionResult> Update(int id)
         {
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync($"http://localhost:5000/api/products/{id}");
@@ -78,8 +80,8 @@ namespace ConsumeAPI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(model);
-            var content = new StringContent(jsonData,Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("http://localhost:5000/api/products",content);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PutAsync("http://localhost:5000/api/products", content);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -94,6 +96,26 @@ namespace ConsumeAPI.Controllers
         {
             var client = _httpClientFactory.CreateClient();
             await client.DeleteAsync($"http://localhost:5000/api/products/{id}");
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Upload()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            var bytes = stream.ToArray();
+            ByteArrayContent content = new ByteArrayContent(bytes);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+            MultipartFormDataContent formData = new MultipartFormDataContent();
+            formData.Add(content, "formFile",file.FileName);
+
+            await client.PostAsync("http://localhost:5000/api/products/upload", formData);
             return RedirectToAction("Index");
         }
     }
