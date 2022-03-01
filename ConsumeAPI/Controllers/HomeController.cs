@@ -37,6 +37,7 @@ namespace ConsumeAPI.Controllers
             }
 
         }
+
         public IActionResult Create()
         {
             return View();
